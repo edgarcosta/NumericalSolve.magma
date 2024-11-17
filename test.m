@@ -1,0 +1,17 @@
+SetDebugOnError(true);
+//SetVerbose("NumericalSolve", 1);
+SetDefaultRealFieldPrecision(30);
+V := VectorSpace(ComplexField(), 1);
+f := map<V->V|x:->Vector([x[1]^2 + x[1] - 1])>;
+df := map<V->MatrixAlgebra(ComplexField(), 1)|x:->Matrix([[2*x[1] + 1]])>;
+eps := 1e-20;
+y1 := Broyden(f, Vector([ComplexField() | -1.618]), eps);
+assert IsClose(Vector([-(1 + Sqrt(5))/2]), y1, eps, 0.0);
+y2 := NewtonRaphson(f, df, Vector([ComplexField() | -1.618]), eps);
+assert IsClose(Vector([-(1 + Sqrt(5))/2]), y2, eps, 0.0);
+f := map<V->V|x:->Vector([x[1]^2 ])>;
+df := map<V->MatrixAlgebra(ComplexField(), 1)|x:->Matrix([[2*x[1]]])>;
+y1 := Broyden(f, Vector([ComplexField() | -1.618]), eps : MaxIterations:=100);
+assert IsClose(Vector([0.0]),  y1, 10*eps, 0.0);
+y2 := NewtonRaphson(f, df, Vector([ComplexField() | -1.618]), eps : MaxIterations:=100);
+assert IsClose(Vector([0.0]),  y2, 10*eps, 0.0);
