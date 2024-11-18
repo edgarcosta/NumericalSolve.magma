@@ -31,7 +31,7 @@ end intrinsic;
 
 intrinsic IsClose(a::ModTupFldElt[RngReCom], b::ModTupFldElt[RngReCom], AbsoluteTolerance::FldReElt, RelativeTolerance::FldReElt) -> BoolElt
  {returns if |a - b| < Max(RelativeTolerance*Max(|a|, |b|), AbsoluteTolerance)}
-  return Real(Norm(a - b)) le Maximum(RelativeTolerance^2 * Maximum(Real(Norm(a)), Real(Norm(b))), AbsoluteTolerance^2);
+  return Sqrt(Real(Norm(a - b))) le Maximum(RelativeTolerance * Sqrt(Maximum(Real(Norm(a)), Real(Norm(b)))), AbsoluteTolerance);
 end intrinsic;
 
 intrinsic NewtonRaphson(
